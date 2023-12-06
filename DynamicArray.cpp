@@ -101,14 +101,14 @@ class DynamicArray {
         // @desc                - frees up allocated memory
         void clear()  {
             // clear elements for security
-            for (std::size_t i = 0; i < size_; ++i) {
-                *(p_start_ + size_ - 1) = T{};
+            for (std::size_t i = 0; i < this->size_; ++i) {
+                *(this->p_start_ + this->size_ - 1) = T{};
             }
             
-            size_ = 0;
-            capacity_ = 0;
-            delete[] p_start_;
-            p_start_ = nullptr;
+            this->size_ = 0;
+            this->capacity_ = 0;
+            delete[] this->p_start_;
+            this->p_start_ = nullptr;
         }
 };
 
