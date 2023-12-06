@@ -28,42 +28,42 @@ class DynamicArray {
             }
 
             // allocate memory
-            capacity_ = cap;
-            p_start_ = new T[capacity_];
+            this->capacity_ = cap;
+            this->p_start_ = new T[capacity_];
         }
 
         // @desc               - returns number of reserved memory blocks
         std::size_t capacity() {
-            return capacity_;
+            return this->capacity_;
         }
 
         // @desc               - returns number of occupied memory blocks
         std::size_t length() {
-            return size_;
+            return this->size_;
         }
 
         // @desc                - indexes some array element
         // @param idx           - integer between 0 and array size - 1
         // @return              - reference to array element selected
         T& at(std::size_t idx) {
-            if (idx >= size_) {
+            if (idx >= this->size_) {
                 throw std::domain_error("Invalid input index: " + std::to_string(idx));
             }
 
-            return *(p_start_ + idx);
+            return *(this->p_start_ + idx);
         }
 
         // @desc                - removes last array element
         // @return              - last array element
         T pop() {
-            if (size_ == 0) {
+            if (this->size_ == 0) {
                 throw std::domain_error("No elements to pop");
             }
 
-            T el = *(p_start_ + size_ - 1);
+            T el = *(this->p_start_ + this->size_ - 1);
             // reset memory block for security
-            *(p_start_ + size_ - 1) = T{};
-            --size_;
+            *(this->p_start_ + this->size_ - 1) = T{};
+            --this->size_;
             return el;
         }
 
@@ -71,31 +71,31 @@ class DynamicArray {
         // @param val           - value of element
         void push(T val) {
             // avoid overwriting unreserved data
-            if (size_ >= capacity_) {
+            if (this->size_ >= this->capacity_) {
                 double_capacity();
             } 
 
-            ++size_;
-            *(p_start_ + size_ - 1) = val;
+            ++this->size_;
+            *(this->p_start_ + this->size_ - 1) = val;
         }
 
         // @desc                - copies current data into 2x as large array
         void double_capacity() {
-            capacity_ *= 2;
-            T* p_start_new = new T[capacity_];
+            this->capacity_ *= 2;
+            T* p_start_new = new T[this->capacity_];
 
             // clear old data for security as we go.
-            for (std::size_t i = 0; i < size_; ++i) {
-                *(p_start_new + i) = *(p_start_ + i);
-                *(p_start_ + i) = T{};
+            for (std::size_t i = 0; i < this->size_; ++i) {
+                *(p_start_new + i) = *(this->p_start_ + i);
+                *(this->p_start_ + i) = T{};
             }
 
             // CAREFULLY free OLD memory, nullify NEW pointer
-            delete[] p_start_;
-            p_start_ = p_start_new;
+            delete[] this->p_start_;
+            this->p_start_ = p_start_new;
             p_start_new = nullptr;
 
-            std::cout << "info: capacity doubled to " + std::to_string(capacity_) << std::endl;
+            std::cout << "info: capacity doubled to " + std::to_string(this->capacity_) << std::endl;
         }
 
         // @desc                - frees up allocated memory
