@@ -1,3 +1,4 @@
+#include <vector>
 #include <cstddef>
 #include <iostream>
 #include <stdexcept>
@@ -46,7 +47,7 @@ class SinglyLinkedList {
     private:
         Node<T>* head_;
         Node<T>* tail_;
-        int size_;
+        std::size_t size_;
     
     public:
         // Constructor
@@ -86,7 +87,7 @@ class SinglyLinkedList {
             }
 
             this->tail_ = node;
-            this->size_ += 1;
+            ++this->size_;
         }
 
         // @desc           - removes node from list
@@ -138,7 +139,7 @@ class SinglyLinkedList {
         // @desc           - removes node from list by index
         // @param idx      - index to remove, 0 <= idx < size_
         // @return         - memory address of node removed, for memory management
-        Node<T>* remove_by_idx(std::size_t idx) {
+        Node<T>* remove_by_index(std::size_t idx) {
             if (idx >= this->size_) {
                 throw std::invalid_argument("Index beyond array length");
             }
@@ -157,7 +158,7 @@ class SinglyLinkedList {
                     // found the node to remove
                     if (i == idx) {
                        removed = curr;
-                       prev->setNext(curr.getNext()); 
+                       prev->setNext(curr->getNext()); 
 
                        // avoid dangling tail pointer
                        if (i == this->size_ - 1) {
@@ -178,6 +179,52 @@ class SinglyLinkedList {
             prev = nullptr;
             return removed;
         }
+
+        // @desc            - returns node at specified index
+        Node<T>* at(std::size_t idx) {
+            if (idx >= this->size_) {
+                throw std::invalid_argument("Index beyond array length");
+            }
+
+            Node<T>* curr = this->head_;
+
+            for (std::size_t i = 0; i < idx; ++i) {
+                if (idx == i) {
+                    break;
+                }
+                curr = curr->getNext();
+            }
+
+            return curr;
+        }
+
+        // @desc            - helper wrapper on top of remove_by_index
+        // @return          - memory address of node removed, for memory management
+        Node<T>* pop() {
+            if (this->size_ == 0) {
+                throw std::range_error("Cannot pop from empty list");
+            }
+            return this->remove_by_index(this->size_ - 1); // CLASS USER MUST DEALLOCATE
+        }
+
+        // @desc            - clears all nodes in linked list
+        // @return          - vector of all nodes removed, for memory management. 
+        std::vector<Node<T>*> clear() {
+            // Sentinel at end set to nullptr
+            std::vector<Node<T>*> v_nodes(this->size_ + 1, nullptr);
+            Node<T>* curr = this->head_;
+
+            for (std::size_t i = 0; i < this->size_; ++i) {
+                v_nodes.push_back(curr);
+                curr = curr->getNext();
+            }
+
+            this->head_ = nullptr;
+            this->tail_ = nullptr;
+            this->size_ = 0;
+
+            return v_nodes;
+        }
 }; 
 
 int main() {
@@ -185,10 +232,16 @@ int main() {
     Node<char> a = Node<char>('a');
     Node<char> b = Node<char>('b');
     Node<char> c = Node<char>('c');
-    Node<char>d{};
+    Node<char> d = Node<char>('d');
+    Node<char> e = Node<char>('e');
+    Node<char> f = Node<char>('f');
+    Node<char>g{};
 
     a.setNext(&b);
     b.setNext(&c);
+    c.setNext(&d);
+    d.setNext(&e);
+    e.setNext(&f);
 
     std::cout << a.getData() << b.getData() << c.getData() << std::endl;
     std::cout << a.getNext() << b.getNext() << c.getNext() << std::endl;
@@ -202,9 +255,22 @@ int main() {
     sll_test.add(&b);
     std::cout << "Head: " << sll_test.head() << ". Tail: " << sll_test.tail() << std::endl;
     sll_test.add(&c);
+    sll_test.add(&d);
+    sll_test.add(&e);
+    sll_test.add(&f);
     std::cout << "Updated size: " << sll_test.length() << std::endl;
 
     // Test removal functions
-    std::cout << "Successful remove by pointer: " << sll_test.remove(&a) << ". Updated size: " << sll_test.length() << std::endl;
-    std::cout << "Cannot find pointer to remove: " << sll_test.remove(&d) << std::endl;
+    std::cout << "Successful remove by pointer: " << sll_test.remove(&a); 
+    std::cout << ". Updated size: " << sll_test.length() << std::endl;
+
+    std::cout << "Cannot find pointer to remove: " << sll_test.remove(&g) << std::endl;
+    std::cout << "Successful remove by index: " << sll_test.remove_by_index(3); 
+    std::cout << ". Updated size: " << sll_test.length() << std::endl;
+
+    std::cout << "Will remove tail: " << sll_test.at(sll_test.length() - 1);
+    std::cout << ". Removed: " << sll_test.pop() << std::endl;
+
+    std::cout << "Cleared remaining " << sll_test.length() << " nodes." << std::endl;
+    sll_test.clear();
 }
