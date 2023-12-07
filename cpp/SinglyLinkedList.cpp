@@ -74,7 +74,7 @@ class SinglyLinkedList {
 
         // @desc            - adds node to end of list
         // @param node      - node to add
-        void add(Node<T>* node) {
+        void push(Node<T>* node) {
             if (node == nullptr) {
                 throw std::invalid_argument("Cannot add a null node");
             }
@@ -210,8 +210,7 @@ class SinglyLinkedList {
         // @desc            - clears all nodes in linked list
         // @return          - vector of all nodes removed, for memory management. 
         std::vector<Node<T>*> clear() {
-            // Sentinel at end set to nullptr
-            std::vector<Node<T>*> v_nodes(this->size_ + 1, nullptr);
+            std::vector<Node<T>*> v_nodes(this->size_, nullptr);
             Node<T>* curr = this->head_;
 
             for (std::size_t i = 0; i < this->size_; ++i) {
@@ -250,14 +249,14 @@ int main() {
     SinglyLinkedList<char> sll_test{};
     std::cout << "Initial size: " << sll_test.length() << std::endl;
     
-    sll_test.add(&a);
+    sll_test.push(&a);
     std::cout << "Head: " << sll_test.head() << ". Tail: " << sll_test.tail() << std::endl;
-    sll_test.add(&b);
+    sll_test.push(&b);
     std::cout << "Head: " << sll_test.head() << ". Tail: " << sll_test.tail() << std::endl;
-    sll_test.add(&c);
-    sll_test.add(&d);
-    sll_test.add(&e);
-    sll_test.add(&f);
+    sll_test.push(&c);
+    sll_test.push(&d);
+    sll_test.push(&e);
+    sll_test.push(&f);
     std::cout << "Updated size: " << sll_test.length() << std::endl;
 
     // Test removal functions
