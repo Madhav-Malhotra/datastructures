@@ -15,8 +15,8 @@ Declare Node class members
 template <typename T>
 class SLNode {
     private:
-        T data_;
-        SLNode<T>* next_;
+        T data_{};
+        SLNode<T>* next_{};
     
     public:
         void setData(T data);
