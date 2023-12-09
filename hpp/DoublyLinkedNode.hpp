@@ -16,9 +16,9 @@ Declare Node class members
 template <typename T>
 class DLNode {
     private:
-        T data_;
-        DLNode<T>* next_;
-        DLNode<T>* last_;
+        T data_{};
+        DLNode<T>* next_{};
+        DLNode<T>* last_{};
     
     public:
         void setData(T data);
