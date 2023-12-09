@@ -2,7 +2,8 @@
 // @brief        - Defining a singly linked list class
 // @author       - Madhav Malhotra
 // @date         - 2023-12-08
-// @version      - 1.0.0
+// @version      - 1.1.0
+// @since 1.0.0  - Added shift/print functions
 // @since 0.0.0  - Added internal controls for memory allocation
 // =======================================================================================
 
@@ -22,6 +23,9 @@ class SLList {
         // @brief           - constructor
         SLList();
 
+        // @brief           - prints nodes to cout
+        void print();
+
         // @brief           - shows list length
         // @return          - number of nodes
         std::size_t length();
@@ -35,7 +39,11 @@ class SLList {
 
         // @brief           - adds node to end of list
         // @param val       - value of new node
-        void push(T val);
+        virtual void push(T val);
+
+        // @brief           - adds node to start of list
+        // @param val       - value of new node
+        virtual void shift(T val);
 
         // @brief           - returns node at some index
         // @param idx       - 0 <= idx < size_
@@ -47,7 +55,7 @@ class SLList {
         void remove_by_index(std::size_t idx);
 
         // @brief           - helper wrapper on top of remove_by_index
-        void pop();
+        virtual void pop();
 
         // @brief           - clears all nodes in linked list
         void clear();

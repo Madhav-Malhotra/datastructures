@@ -21,6 +21,9 @@ class DLList {
         // @brief           - constructor
         DLList();
 
+        // @brief           - prints array elements to std::cout
+        void print();
+
         // @brief           - shows list length
         // @return          - number of nodes
         std::size_t length();
@@ -35,6 +38,10 @@ class DLList {
         // @brief           - adds node to end of list
         // @param val       - data in node to add
         void push(T val);
+
+        // @brief           - inserts node to start of list
+        // @param val       - data in node to add
+        void shift(T val);
 
         // @brief           - removes node from list by index
         // @param idx       - index to remove, 0 <= idx < size_

@@ -17,11 +17,24 @@
 Define Doubly Linked List
 */
 
+// @brief             - constructor
 template <typename T>
 DLList<T>::DLList() {
     this->head_ = nullptr;
     this->tail_ = nullptr;
     this->size_ = 0;
+}
+
+// @brief             - prints array values to std::cout
+template <typename T>
+void DLList<T>::print() {
+    DLNode<T>* curr = this->head_;
+    for (std::size_t i = 0; i < this->size_; ++i) {
+        std::cout << curr->getData() << " ";
+        curr = curr->getNext();
+    }
+
+    std::cout << std::endl;
 }
 
 // @brief            - returns number of nodes
@@ -57,6 +70,24 @@ void DLList<T>::push(T val) {
     }
 
     this->tail_ = node;
+    ++this->size_;
+}
+
+// @brief           - inserts element at start of list
+// @param val       - value of new node
+template <typename T>
+void DLList<T>::shift(T val) {
+    DLNode<T>* node = new DLNode<T>(val);
+
+    // Only init tail if list is empty
+    if (this->size_ == 0) {
+        this->tail_ = node;
+    } else {
+        this->head_->setLast(node);
+        node->setNext(this->head_);
+    }
+
+    this->head_ = node;
     ++this->size_;
 }
 
@@ -164,10 +195,12 @@ int main() {
     std::cout << "Initial size: " << dll_test.length() << std::endl;
     
     dll_test.push('a');
-    std::cout << "Head: " << dll_test.head() << ". Tail: " << dll_test.tail() << std::endl;
+    dll_test.print();
     dll_test.push('b');
-    std::cout << "Head: " << dll_test.head() << ". Tail: " << dll_test.tail() << std::endl;
-    dll_test.push('c');
+    dll_test.print();
+    dll_test.shift('c');
+    dll_test.print();
+
     dll_test.push('c');
     dll_test.push('c');
     dll_test.push('d');

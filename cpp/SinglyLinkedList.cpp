@@ -45,6 +45,20 @@ SLNode<T>* SLList<T>::tail() {
     return this->tail_;
 } 
 
+// @brief            - prints nodes to cout
+template <typename T>
+void SLList<T>::print() {
+    SLNode<T>* curr = this->head_;
+    for (std::size_t i = 0; i < this->size_; ++i) {
+        std::cout << curr->getData() << " ";
+        curr = curr->getNext();
+    }
+
+    std::cout << std::endl;
+}
+
+
+
 // @brief           - adds node to end of list
 // @param val       - value of new node
 template <typename T>
@@ -59,6 +73,23 @@ void SLList<T>::push(T val) {
     }
 
     this->tail_ = node;
+    ++this->size_;
+}
+
+// @brief           - adds node to start of list
+// @param val       - value of new node
+template <typename T>
+void SLList<T>::shift(T val) {
+    SLNode<T>* node = new SLNode<T>(val);
+
+    // Only init tail if list is empty
+    if (this->head_ == nullptr) {
+        this->tail_ = node;
+    }
+    
+    node->setNext(this->head_);
+    this->head_ = node;
+
     ++this->size_;
 }
 
@@ -173,12 +204,12 @@ int main() {
     std::cout << "Initial size: " << sll_test.length() << std::endl;
 
     sll_test.push('a');
-    std::cout << "Head: " << sll_test.head() << ". Tail: " << sll_test.tail() << std::endl;
-
+    sll_test.print();
     sll_test.push('b');
-    std::cout << "Head: " << sll_test.head() << ". Tail: " << sll_test.tail() << std::endl;
+    sll_test.print();
+    sll_test.shift('c');
+    sll_test.print();
 
-    sll_test.push('c');
     sll_test.push('c');
     sll_test.push('c');
     sll_test.push('d');
