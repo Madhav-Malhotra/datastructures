@@ -1,13 +1,17 @@
 // @file         - DynamicArray.hpp
 // @brief        - Declaring a dynamic array class
 // @author       - Madhav Malhotra
-// @date         - 2023-12-11
-// @version      - 1.0.0
+// @date         - 2023-12-12
+// @version      - 1.1.0
+// @since 1.0.0  - Added new insert function to support derived binary trees
 // @since 0.0.0  - moved member function definitions to hpp due to template issues
 // =======================================================================================
 
 #ifndef DYNAMICARRAY_H
 #define DYNAMICARRAY_H
+
+#include <cstddef>
+#include <iostream>
 
 /* 
 Declare class

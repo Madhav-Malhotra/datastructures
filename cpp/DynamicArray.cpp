@@ -1,5 +1,5 @@
 // @file         - DynamicArray.cpp
-// @brief        - Defining a dynamic array class
+// @brief        - Testing a dynamic array class
 // @author       - Madhav Malhotra
 // @date         - 2023-12-11
 // @version      - 2.0.0
