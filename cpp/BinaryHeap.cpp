@@ -10,6 +10,7 @@
 
 int main() {
     BinaryHeap<int> bt_test;
+    bt_test.set_min_heap();
 
     // Add elements
     std::cout << "Initialised elements: " << bt_test.count() << std::endl;
