@@ -2,8 +2,11 @@
 // @brief        - Defining a binary tree using a dynamic array
 // @author       - Madhav Malhotra
 // @date         - 2023-12-11
-// @version      - 0.0.0
-// =======================================================================================
+// @version      - 0.2.1
+// @since 0.2.0  - Bug patch in .remove_by_value() with all = true.
+// @since 0.1.0  - Made .remove_by_index() virtual for binary heap derived class
+// @since 0.0.0  - Added pretty print utility
+// =============================================================================
 
 #ifndef BINARYTREEARRAY_HPP
 #define BINARYTREEARRAY_HPP
@@ -18,7 +21,19 @@ Declare class
 
 template <typename T>
 class BinaryTree : public DynamicArray<T> {
+    private:
+        // @brief           - Shows the nodes of the binary tree
+        // @param prefix    - levels/sublevels on each line
+        // @param idx       - index of current node
+        // @param isleft    - left or right node
+        // @author          - Vasili Novikov, translated by Adrian Schneider
+        // @source          - https://stackoverflow.com/a/51730733
+        void printBT(const std::string& prefix, const std::size_t idx, bool isLeft);
+
     public:
+        // @brief           - nicely prints the nodes of the tree
+        void print();
+
         // @brief           - alias for dynamic array length
         // @return          - number of nodes in binary tree
         std::size_t count() {
@@ -44,7 +59,7 @@ class BinaryTree : public DynamicArray<T> {
         // @param idx       - index of node to remove
         // @return          - value at removed node
         // @note            - this is not binary search tree behaviour.
-        T remove_by_index(std::size_t idx);
+        virtual T remove_by_index(std::size_t idx);
         
         // @brief           - removes root node
         // @return          - value at root node
@@ -69,7 +84,9 @@ class BinaryTree : public DynamicArray<T> {
 
             // only runs the function again if early stop above
             if (all && found) {
-                return found || this->remove_by_value(val, all);
+                // DO NOT SWITCH ORDER OF OR. COMPILER WILL OPTIMISE TO JUST
+                // RETURN FOUND WITHOUT RECURSIVE CALL
+                return this->remove_by_value(val, true) || found;
             } else {
                 return found;
             }
@@ -129,6 +146,37 @@ T BinaryTree<T>::remove_by_index(std::size_t idx) {
 template <typename T>
 T BinaryTree<T>::poll() {
     return this->remove_by_index(0);
+}
+
+
+/* 
+Pretty print utility - https://stackoverflow.com/a/51730733
+*/
+
+// @brief           - Shows the nodes of the binary tree
+// @param prefix    - levels/sublevels on each line
+// @param idx       - index of current node
+// @param isleft    - left or right node
+// @author          - Vasili Novikov, translated by Adrian Schneider
+// @source          - https://stackoverflow.com/a/51730733
+template <typename T>
+void BinaryTree<T>::printBT(const std::string& prefix, const std::size_t idx, bool isLeft) {
+    if ( idx < this->count() ) {
+        // print current line
+        std::cout << prefix;
+        std::cout << (isLeft ? "├──" : "└──" );
+        std::cout << this->at(idx) << std::endl;
+
+        // enter the next tree level - left and right branch
+        printBT( prefix + (isLeft ? "│   " : "    "), this->left(idx), true);
+        printBT( prefix + (isLeft ? "│   " : "    "), this->right(idx), false);
+    }
+}
+
+// @brief           - Shows the nodes of the binary tree
+template <typename T>
+void BinaryTree<T>::print() {
+    this->printBT("", 0, false);
 }
 
 #endif

@@ -2,8 +2,9 @@
 // @brief        - Testing a binary tree class
 // @author       - Madhav Malhotra
 // @date         - 2023-12-11
-// @version      - 0.0.0
-// =======================================================================================
+// @version      - 0.1.0
+// @since 0.0.0  - added pretty print util to show full tree
+// =============================================================================
 
 #include <iostream>
 #include "../hpp/BinaryTree.hpp"
@@ -19,6 +20,7 @@ int main() {
     }
     bt_test.insert(25, 6);
     std::cout << "Size after pushes: " << bt_test.length() << std::endl;
+    bt_test.print();
 
     // Relation getters
     std::cout << "Root l child: " << bt_test.at(bt_test.left(0)) << std::endl;

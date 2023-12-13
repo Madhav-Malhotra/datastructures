@@ -2,10 +2,11 @@
 // @brief        - Declaring a dynamic array class
 // @author       - Madhav Malhotra
 // @date         - 2023-12-12
-// @version      - 1.1.0
+// @version      - 1.1.1
+// @since 1.1.0  - Updated error types from out of range indices
 // @since 1.0.0  - Added new insert function to support derived binary trees
 // @since 0.0.0  - moved member function definitions to hpp due to template issues
-// =======================================================================================
+// =============================================================================
 
 #ifndef DYNAMICARRAY_H
 #define DYNAMICARRAY_H
@@ -94,7 +95,7 @@ std::size_t DynamicArray<T>::length() {
 template <typename T>
 T& DynamicArray<T>::at(std::size_t idx) {
     if (idx >= this->size_) {
-        throw std::domain_error("Invalid input index: " + std::to_string(idx));
+        throw std::range_error("Invalid input index: " + std::to_string(idx));
     }
 
     return *(this->p_start_ + idx);
@@ -105,7 +106,7 @@ T& DynamicArray<T>::at(std::size_t idx) {
 template <typename T>
 T DynamicArray<T>::pop() {
     if (this->size_ == 0) {
-        throw std::domain_error("No elements to pop");
+        throw std::range_error("No elements to pop");
     }
 
     T el = *(this->p_start_ + this->size_ - 1);
