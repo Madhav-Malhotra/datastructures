@@ -2,7 +2,8 @@
 // @brief        - Defining a singly linked list class
 // @author       - Madhav Malhotra
 // @date         - 2023-12-08
-// @version      - 2.0.0
+// @version      - 2.1.0
+// @since 2.0.0  - Updated remove_by_index to return node val (to support queue)
 // @since 1.1.0  - Shifted class definitions to hpp due to template class problems
 // @since 1.0.0  - Added shift/print functions
 // @since 0.0.0  - Added internal controls for memory allocation
@@ -59,7 +60,8 @@ class SLList {
 
         // @brief           - removes node from list by index
         // @param idx       - index to remove, 0 <= idx < size_
-        void remove_by_index(std::size_t idx);
+        // @return          - value of node removed
+        T remove_by_index(std::size_t idx);
 
         // @brief           - helper wrapper on top of remove_by_index
         virtual void pop();
@@ -226,8 +228,9 @@ Intentionally blank
 
 // @brief          - removes node from list by index
 // @param idx      - index to remove, 0 <= idx < size_
+// @return         - value of node removed
 template <typename T>
-void SLList<T>::remove_by_index(std::size_t idx) {
+T SLList<T>::remove_by_index(std::size_t idx) {
     // implicitly handles empty list
     if (idx >= this->size_) {
         throw std::invalid_argument("Index beyond array length");
@@ -259,11 +262,12 @@ void SLList<T>::remove_by_index(std::size_t idx) {
     }
 
     // Clean up
-    --this->size_;
+    T val = removed->getData();
     delete removed;
-    removed = nullptr;
-    curr = nullptr;
-    prev = nullptr;
+    removed = curr = prev = nullptr;
+
+    --this->size_;
+    return val;
 }
 
 // @brief            - returns node at specified index

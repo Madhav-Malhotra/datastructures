@@ -2,7 +2,8 @@
 // @brief        - Defining a queue class
 // @author       - Madhav Malhotra
 // @date         - 2023-12-11
-// @version      - 0.0.0
+// @version      - 1.0.0
+// @since 0.0.0  - Patched bug where polling from queue didn't return data
 // =======================================================================================
 
 #ifndef STACK_HPP
@@ -27,8 +28,8 @@ class Queue : public SLList<T> {
 
         // @brief           - removes a node from the front of the queue
         // @note            - defined in hpp since short
-        void dequeue() {
-            SLList<T>::remove_by_index(0);
+        T dequeue() {
+            return SLList<T>::remove_by_index(0);
         }
 };
 
