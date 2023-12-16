@@ -48,11 +48,11 @@ class BinarySearchTree {
 
         // @brief           - returns number of nodes in tree
         std::size_t count() {
-            return count_;
+            return this->count_;
         }
 
         BSTNode<T>* root() {
-            return root_;
+            return this->root_;
         }
 
         // @brief           - removes node at specified memory address
@@ -80,8 +80,12 @@ class BinarySearchTree {
             Queue<BSTNode<T>*> to_check{};
             to_check.enqueue(this->root_);
 
-            // see unchecked els while (el not yet deleted in single del mode)
-            while ((to_remove.length() != 1 || all) && to_check.length()) {
+            while (
+                // els left to check AND
+                to_check.length() &&
+                // (no els removed OR els removed but multi remove mode)
+                (to_remove.length() < 1 || all)
+            ) {
                 // check parent
                 BSTNode<T>* p = to_check.dequeue();
                 if (p->getData() == val) {
@@ -90,7 +94,7 @@ class BinarySearchTree {
                 
                 // update queue
                 BSTNode<T>* l = p->getLeft();
-                BSTNode<T>* r = r->getRight();
+                BSTNode<T>* r = p->getRight();
                 if (l) to_check.enqueue(l);
                 if (r) to_check.enqueue(r);
             }
@@ -122,12 +126,6 @@ BSTNode<T>* BinarySearchTree<T>::min(BSTNode<T>* root) {
 // @param root      - node position being considered
 template <typename T>
 void BinarySearchTree<T>::pushRecursive(T val, BSTNode<T>* root) {
-    // handle empty tree
-    if (root == nullptr) {
-        this->root_ = new BSTNode<T>{};
-        this->root_->setData(val);
-    }
-
     T data = root->getData();
     BSTNode<T>* l = root->getLeft();
     BSTNode<T>* r = root->getRight();
@@ -154,8 +152,15 @@ void BinarySearchTree<T>::pushRecursive(T val, BSTNode<T>* root) {
 // @brief          - adds node
 // @param val      - value of new node
 template <typename T>
-void BinarySearchTree<T>::push(T val) { 
-    this->pushRecursive(val, this->root_);
+void BinarySearchTree<T>::push(T val) {
+    // handle empty tree
+    if (this->root_ == nullptr) {
+        this->root_ = new BSTNode<T>{};
+        this->root_->setData(val);
+    } else {
+        this->pushRecursive(val, this->root_);
+    }
+
     ++this->count_;
 }
 
@@ -174,6 +179,7 @@ void BinarySearchTree<T>::remove(BSTNode<T>* node) {
             (p->getLeft() == node) ? p->setLeft(nullptr) : p->setRight(nullptr);
         }
         delete node;
+        --this->count_;
     }
     // both subtrees
     else if (l && r) {
@@ -186,18 +192,26 @@ void BinarySearchTree<T>::remove(BSTNode<T>* node) {
     // single subtree
     else {
         if (p) {
+            // Make parent point to new child
             if (p->getLeft() == node) {
                 p->setLeft((l) ? l : r);
             } else {
                 p->setRight((l) ? l : r);
             }
+            // Make child point to new parent
+            (l) ? l->setParent(p) : r->setParent(p);
+        }
+        // Only the root node has no parent 
+        else {
+            this->root_ = (l) ? l : r;
+            this->root_->setParent(nullptr);
         }
         delete node;
+        --this->count_;
     }
 
     // cleanup
     node = p = l = r = nullptr;
-    --this->count_;
 }
 
 // @brief           - removes root node

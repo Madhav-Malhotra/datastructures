@@ -6,24 +6,29 @@
 // =============================================================================
 
 #include <iostream>
+#include <random>
 #include "../hpp/BinarySearchTree.hpp"
 
 int main() {
-    BinarySearchTree<int> bt_test;
+    // Setup data
+    BinarySearchTree<int> bt_test{};
+    std::random_device rd{};
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(1,100);
 
     // Add elements
     std::cout << "Initialised elements: " << bt_test.count() << std::endl;
 
-    for (std::size_t i = 1; i < 25; ++i) {
-        bt_test.push(i);
+    for (std::size_t i = 25; i > 0; --i) {
+        bt_test.push(dist(gen));
     }
-    bt_test.push(25);
+    bt_test.push(24);
     std::cout << "Size after pushes: " << bt_test.count() << std::endl;
     bt_test.print();
 
     // Relation getters
-    std::cout << "Root l child: " << bt_test.root()->getLeft()->getData() << std::endl;
-    std::cout << "Root r child: " << bt_test.root()->getRight()->getData() << std::endl;
+    std::cout << "Left " << bt_test.root()->getLeft() << " ";
+    std::cout << "Right " << bt_test.root()->getRight() << std::endl;
 
     // removal
     bt_test.poll();
@@ -34,7 +39,7 @@ int main() {
     std::cout << "Removed node w/ val 17: " << bt_test.remove_by_value(17) << std::endl;
     bt_test.print();
 
-    bt_test.remove_by_value(25, true);
+    bt_test.remove_by_value(24, true);
     std::cout << "Size after: " << bt_test.count() << std::endl;
     bt_test.print();
 
