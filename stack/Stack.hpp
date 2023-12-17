@@ -1,17 +1,16 @@
-// @file         - Queue.hpp
-// @brief        - Defining a queue class
+// @file         - Stack.hpp
+// @brief        - Defining a stack class
 // @author       - Madhav Malhotra
-// @date         - 2023-12-11
-// @version      - 1.0.0
-// @since 0.0.0  - Patched bug where polling from queue didn't return data
+// @date         - 2023-12-09
+// @version      - 0.0.0
 // =======================================================================================
 
 #ifndef STACK_HPP
 #define STACK_HPP
-#include "./SinglyLinkedList.hpp"
+#include "../linkedlist/SinglyLinkedList.hpp"
 
 template <typename T>
-class Queue : public SLList<T> {
+class Stack : public SLList<T> {
     public: 
         // inherit public members (constructor/destructor implicitly inherited)
         using SLList<T>::length;
@@ -19,17 +18,17 @@ class Queue : public SLList<T> {
         using SLList<T>::clear;
         using SLList<T>::head;
 
-        // @brief           - adds a node to the back of the queue
+        // @brief           - adds a node to the top of the stack
         // @param val       - the value of the node to add
         // @note            - defined in hpp since short
-        void enqueue(T val) {
-            SLList<T>::push(val);
+        void push(T val) {
+            SLList<T>::shift(val);
         }
 
-        // @brief           - removes a node from the front of the queue
+        // @brief           - removes a node from the top of the stack
         // @note            - defined in hpp since short
-        T dequeue() {
-            return SLList<T>::remove_by_index(0);
+        void pop() {
+            SLList<T>::remove_by_index(0);
         }
 };
 

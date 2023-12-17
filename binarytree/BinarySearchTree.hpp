@@ -11,8 +11,8 @@
 #include <cstddef>
 #include <stdexcept>
 #include "./BinarySearchTreeNode.hpp"
-#include "./DynamicArray.hpp"
-#include "./Queue.hpp"
+#include "../array/DynamicArray.hpp"
+#include "../queue/Queue.hpp"
 
 /* 
 Declare class

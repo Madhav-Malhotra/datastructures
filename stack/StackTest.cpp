@@ -6,7 +6,7 @@
 // =======================================================================================
 
 #include <iostream>
-#include "../hpp/Stack.hpp"
+#include "./Stack.hpp"
 
 int main() {
     Stack<char> stack_test{};

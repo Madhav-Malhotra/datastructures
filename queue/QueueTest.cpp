@@ -6,7 +6,7 @@
 // =======================================================================================
 
 #include <iostream>
-#include "../hpp/Queue.hpp"
+#include "./Queue.hpp"
 
 int main() {
     Queue<int> queue_test{};

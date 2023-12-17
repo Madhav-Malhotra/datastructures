@@ -10,7 +10,7 @@
 
 #include <cstddef>
 #include <stdexcept>
-#include "./BinaryTree.hpp"
+#include "../binarytree/BinaryTree.hpp"
 
 /* 
 Declare class

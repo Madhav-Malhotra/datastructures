@@ -9,7 +9,7 @@
 
 #ifndef DLList_HPP
 #define DLList_HPP
-#include "DoublyLinkedNode.hpp"
+#include "./DoublyLinkedNode.hpp"
 
 template <typename T>
 class DLList {

@@ -9,7 +9,7 @@
 
 #include <iostream>
 #include <stdexcept>
-#include "../hpp/DynamicArray.hpp"
+#include "./DynamicArray.hpp"
 
 int main() {
     DynamicArray<int> a_test;

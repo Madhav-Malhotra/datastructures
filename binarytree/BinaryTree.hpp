@@ -13,7 +13,7 @@
 
 #include <cstddef>
 #include <stdexcept>
-#include "./DynamicArray.hpp"
+#include "../array/DynamicArray.hpp"
 
 /* 
 Declare class

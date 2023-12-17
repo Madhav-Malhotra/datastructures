@@ -12,8 +12,8 @@
 #include <cstddef>
 #include <iostream>
 #include <stdexcept>
-#include "../hpp/SinglyLinkedNode.hpp"
-#include "../hpp/SinglyLinkedList.hpp"
+#include "./SinglyLinkedNode.hpp"
+#include "./SinglyLinkedList.hpp"
 
 /* 
 Due to issues with template classes, member function

@@ -6,7 +6,7 @@
 // =============================================================================
 
 #include <iostream>
-#include "../hpp/BinaryHeap.hpp"
+#include "./BinaryHeap.hpp"
 
 int main() {
     BinaryHeap<int> bt_test;

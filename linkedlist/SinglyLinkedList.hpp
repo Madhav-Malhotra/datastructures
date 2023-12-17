@@ -11,7 +11,7 @@
 
 #ifndef SLList_HPP
 #define SLList_HPP
-#include "SinglyLinkedNode.hpp"
+#include "./SinglyLinkedNode.hpp"
 
 /* 
 Declare class members

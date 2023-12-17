@@ -11,8 +11,8 @@
 #include <cstddef>
 #include <iostream>
 #include <stdexcept>
-#include "../hpp/DoublyLinkedNode.hpp"
-#include "../hpp/DoublyLinkedList.hpp"
+#include "./DoublyLinkedNode.hpp"
+#include "./DoublyLinkedList.hpp"
 
 
 int main() {

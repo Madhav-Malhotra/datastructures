@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <random>
-#include "../hpp/BinarySearchTree.hpp"
+#include "./BinarySearchTree.hpp"
 
 int main() {
     // Setup data

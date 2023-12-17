@@ -7,7 +7,7 @@
 // =============================================================================
 
 #include <iostream>
-#include "../hpp/BinaryTree.hpp"
+#include "./BinaryTree.hpp"
 
 int main() {
     BinaryTree<int> bt_test;
