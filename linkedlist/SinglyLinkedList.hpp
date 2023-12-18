@@ -29,7 +29,7 @@ class SLList {
         SLList();
 
         // @brief           - destructor
-        ~SLList();
+        virtual ~SLList();
 
         // @brief           - prints nodes to cout
         void print();

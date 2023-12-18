@@ -1,11 +1,12 @@
 // @file         - DynamicArray.hpp
 // @brief        - Declaring a dynamic array class
 // @author       - Madhav Malhotra
-// @date         - 2023-12-12
-// @version      - 1.1.1
+// @date         - 2023-12-18
+// @version      - 1.1.2
+// @since 1.1.1  - Allowed indexing to uninitialised, but reserved, memory.
 // @since 1.1.0  - Updated error types from out of range indices
 // @since 1.0.0  - Added new insert function to support derived binary trees
-// @since 0.0.0  - moved member function definitions to hpp due to template issues
+// @since 0.0.0  - Moved member func definitions to hpp due to template issues
 // =============================================================================
 
 #ifndef DYNAMICARRAY_H
@@ -38,6 +39,11 @@ class DynamicArray {
             // allocate memory
             this->capacity_ = cap;
             this->p_start_ = new T[capacity_];
+
+            // for safety, especially if array of pointers initialised
+            for (std::size_t i = 0; i < this->capacity_; ++i) {
+                *(p_start_ + i) = T{};
+            }
         }
 
         // @brief               - returns number of reserved memory blocks
@@ -94,7 +100,7 @@ std::size_t DynamicArray<T>::length() {
 // @return              - reference to array element selected
 template <typename T>
 T& DynamicArray<T>::at(std::size_t idx) {
-    if (idx >= this->size_) {
+    if (idx >= this->capacity_) {
         throw std::range_error("Invalid input index: " + std::to_string(idx));
     }
 
