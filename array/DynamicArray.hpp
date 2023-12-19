@@ -3,7 +3,7 @@
 // @author       - Madhav Malhotra
 // @date         - 2023-12-18
 // @version      - 1.1.2
-// @since 1.1.1  - Allowed indexing to uninitialised, but reserved, memory.
+// @since 1.1.1  - Allowed index/set to uninitialised, but reserved, memory.
 // @since 1.1.0  - Updated error types from out of range indices
 // @since 1.0.0  - Added new insert function to support derived binary trees
 // @since 0.0.0  - Moved member func definitions to hpp due to template issues
@@ -53,7 +53,7 @@ class DynamicArray {
         std::size_t length();
 
         // @brief               - indexes some array element
-        // @param idx           - integer between 0 and array size - 1
+        // @param idx           - integer between 0 and array cap - 1
         // @return              - reference to array element selected
         T& at(std::size_t idx);
 
@@ -65,11 +65,17 @@ class DynamicArray {
         // @param val           - value of element
         void push(T val);
 
-        // @brief           - appends a value at specified index
+        // @brief           - creates a new element at specified index, 
+        //                    shifting other array els. Array size increases.
         // @param val       - value of new element
         // @param idx       - desired location of new element, 0 <= idx < length
         void insert(T val, std::size_t idx);
-        
+
+        // @brief               - sets the value of some array element, without
+        //                        modifying other els. Array size unchanged.
+        // @param idx           - integer between 0 and array cap - 1
+        // @param val           - value to set at that el
+        void set(T val, std::size_t idx);        
 
         // @brief                - increases allocated memory by 2x
         void double_capacity();
@@ -135,7 +141,8 @@ void DynamicArray<T>::push(T val) {
     *(this->p_start_ + this->size_ - 1) = val;
 }
 
-// @brief           - appends a value at specified index
+// @brief           - creates a new element at specified index, 
+//                    shifting other array els. Array size increases.
 // @param val       - value of new element
 // @param idx       - desired location of new element, 0 <= idx < length
 template <typename T>
@@ -157,14 +164,27 @@ void DynamicArray<T>::insert(T val, std::size_t idx) {
     ++this->size_;
 }
 
+// @brief               - sets the value of some array element, without
+//                        modifying other els. Array size unchanged.
+// @warning             - only use on EXISTING elements. Else size_ inaccurate
+// @param idx           - integer between 0 and array cap - 1
+// @param val           - value to set at that el
+template <typename T>
+void DynamicArray<T>::set(T val, std::size_t idx) {
+    if (idx >= this->capacity_) {
+        throw std::range_error("Invalid input index: " + std::to_string(idx));
+    }
+
+    *(this->p_start_ + idx) = val;
+}
+
 // @brief                - copies current data into 2x as large array
 template <typename T>
 void DynamicArray<T>::double_capacity() {
-    this->capacity_ *= 2;
-    T* p_start_new = new T[this->capacity_];
+    T* p_start_new = new T[this->capacity_*2];
 
     // clear old data for security as we go.
-    for (std::size_t i = 0; i < this->size_; ++i) {
+    for (std::size_t i = 0; i < this->capacity_; ++i) {
         *(p_start_new + i) = *(this->p_start_ + i);
         *(this->p_start_ + i) = T{};
     }
@@ -173,6 +193,7 @@ void DynamicArray<T>::double_capacity() {
     delete[] this->p_start_;
     this->p_start_ = p_start_new;
     p_start_new = nullptr;
+    this->capacity_ *= 2;
 
     std::cout << "info: capacity doubled to " + std::to_string(this->capacity_) << std::endl;
 }
