@@ -98,8 +98,8 @@ void SC_HashTable<K,V>::set_max_depth(std::size_t depth) {
 // @return          - index linked list to add key's val to.
 template <typename K, typename V>
 std::size_t SC_HashTable<K,V>::hash(K key) {
-    std::hash<K> hasher;
-    return hasher(key) % this->arr_.capacity();
+    std::size_t hash = std::hash<K>{}(key);
+    return hash % this->arr_.capacity();
 }
 
 // @brief           - add a key value pair to the hash table
