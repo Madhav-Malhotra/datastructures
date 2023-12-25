@@ -1,4 +1,4 @@
-// @file         - LinearProbing.cpp
+// @file         - LinearProbingTest.cpp
 // @brief        - Testing a hashtable with open addressing and linear probing
 // @author       - Madhav Malhotra
 // @date         - 2023-12-21
